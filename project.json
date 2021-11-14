@@ -1,0 +1,42 @@
+{
+    "projectType": "library",
+    "root": "libs/contrib/views",
+    "sourceRoot": "libs/contrib/views/src",
+    "prefix": "hitan",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/angular:ng-packagr-lite",
+            "outputs": ["dist/libs/contrib/views"],
+            "options": {
+                "project": "libs/contrib/views/ng-package.json"
+            },
+            "configurations": {
+                "production": {
+                    "tsConfig": "libs/contrib/views/tsconfig.lib.prod.json"
+                },
+                "development": {
+                    "tsConfig": "libs/contrib/views/tsconfig.lib.json"
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/contrib/views"],
+            "options": {
+                "jestConfig": "libs/contrib/views/jest.config.js",
+                "passWithNoTests": true
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "options": {
+                "lintFilePatterns": [
+                    "libs/contrib/views/src/**/*.ts",
+                    "libs/contrib/views/src/**/*.html"
+                ]
+            }
+        }
+    },
+    "tags": []
+}
