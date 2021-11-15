@@ -1,1 +1,1 @@
-export * from "./lib/contrib-views.module";
+export * from "./lib";
