@@ -9,7 +9,7 @@ import { onEvent } from "@cloudextend/contrib/events";
 import { navigate } from "./navigation";
 
 @Injectable()
-export class ViewStateEffects {
+export class NavigationEffects {
     constructor(
         private readonly actions$: Actions,
         private readonly router: Router

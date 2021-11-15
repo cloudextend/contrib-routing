@@ -5,10 +5,10 @@ import { Action } from "@ngrx/store";
 import { Observable, of } from "rxjs";
 
 import { navigate } from "./navigation";
-import { ViewStateEffects } from "./view-states.effects";
+import { NavigationEffects } from "./navigation.effects";
 
-describe("View State Effects", () => {
-    let effects: ViewStateEffects;
+describe("Navigation Effects", () => {
+    let effects: NavigationEffects;
     let actions$: Observable<Action>;
     let navFn: jest.Mock;
 
@@ -22,11 +22,11 @@ describe("View State Effects", () => {
             providers: [
                 provideMockActions(() => actions$),
                 { provide: Router, useValue: router },
-                ViewStateEffects,
+                NavigationEffects,
             ],
         });
 
-        effects = TestBed.inject(ViewStateEffects);
+        effects = TestBed.inject(NavigationEffects);
     });
 
     describe("On transition events", () => {

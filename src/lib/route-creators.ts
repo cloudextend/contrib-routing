@@ -6,17 +6,15 @@ import { navigate, NavigationEvent } from "./navigation";
 import { extractUrlSegments } from "./url-segments-extractor";
 import { Route } from "@angular/router";
 
-export type View = Route;
+export type RouteCreator<C extends Creator = Creator> = EventCreator<C> & Route;
 
-export type ViewCreator<C extends Creator = Creator> = EventCreator<C> & View;
-
-export function where<T extends ObjectLike>() {
+export function takes<T extends ObjectLike>() {
     return "params" as unknown as T;
 }
 
 export interface UnparamterizedNavigation
-    extends View,
-        ViewCreator<
+    extends Route,
+        RouteCreator<
             (
                 source: string,
                 queryParams?: Record<string, unknown>
@@ -24,8 +22,8 @@ export interface UnparamterizedNavigation
         > {}
 
 export interface ParameterizedNavigation<T>
-    extends View,
-        ViewCreator<
+    extends Route,
+        RouteCreator<
             (
                 soure: string,
                 params: T,
@@ -33,11 +31,11 @@ export interface ParameterizedNavigation<T>
             ) => NavigationEvent
         > {}
 
-export function createView(): UnparamterizedNavigation;
-export function createView<ParamsType extends Record<string, unknown>>(
+export function declareRoute(): UnparamterizedNavigation;
+export function declareRoute<ParamsType extends Record<string, unknown>>(
     paramsHint: ParamsType
 ): ParameterizedNavigation<ParamsType>;
-export function createView<ParamsType extends Record<string, unknown>>(
+export function declareRoute<ParamsType extends Record<string, unknown>>(
     ...params: ParamsType[]
 ): (
     source: string,
@@ -48,11 +46,11 @@ export function createView<ParamsType extends Record<string, unknown>>(
             source: string,
             queryParams?: Record<string, unknown>
         ) => {
-            const view = action as unknown as View;
-            if (!view.path) {
-                throw new Error("View misconfiguration. A path is required.");
+            const Route = action as unknown as Route;
+            if (!Route.path) {
+                throw new Error("Route misconfiguration. A path is required.");
             }
-            const pathSegments = [view.path];
+            const pathSegments = [Route.path];
             return navigate(source, { pathSegments, queryParams });
         };
         return action;
@@ -62,12 +60,12 @@ export function createView<ParamsType extends Record<string, unknown>>(
             params: ParamsType,
             queryParams?: Record<string, unknown>
         ) => {
-            const view = action as unknown as View;
-            if (!view.path) {
-                throw new Error("View misconfiguration. A path is required.");
+            const Route = action as unknown as Route;
+            if (!Route.path) {
+                throw new Error("Route misconfiguration. A path is required.");
             }
 
-            const pathSegments = extractUrlSegments(view.path);
+            const pathSegments = extractUrlSegments(Route.path);
             return navigate(source, { pathSegments, params, queryParams });
         };
         return action;

@@ -1,22 +1,22 @@
 import { NAVIGATION_VERB } from "./navigation";
-import { routify } from "./routify";
+import { resolve } from "./resolve";
 import {
-    createView,
+    declareRoute,
     ParameterizedNavigation,
     UnparamterizedNavigation,
-    where,
-} from "./view-creators";
+    takes,
+} from "./route-creators";
 
-describe("View Creation", () => {
+describe("Route Creation", () => {
     describe("Parameterless routes", () => {
         let unparamRoute: UnparamterizedNavigation;
 
         beforeEach(() => {
-            unparamRoute = createView();
+            unparamRoute = declareRoute();
         });
 
         describe("when routified", () => {
-            beforeEach(() => routify(unparamRoute, { path: "sample/path" }));
+            beforeEach(() => resolve(unparamRoute, { path: "sample/path" }));
 
             it("can be navigated", () => {
                 const nav = unparamRoute("UT");
@@ -40,12 +40,12 @@ describe("View Creation", () => {
         let paramRoute: ParameterizedNavigation<{ a: string; b: string }>;
 
         beforeEach(() => {
-            paramRoute = createView(where<{ a: string; b: string }>());
+            paramRoute = declareRoute(takes<{ a: string; b: string }>());
         });
 
         describe("when routified", () => {
             beforeEach(() =>
-                routify(paramRoute, { path: "sample/:a/route/:b" })
+                resolve(paramRoute, { path: "sample/:a/route/:b" })
             );
 
             it("can be navigated", () => {
