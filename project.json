@@ -1,30 +1,30 @@
 {
     "projectType": "library",
-    "root": "libs/contrib/views",
-    "sourceRoot": "libs/contrib/views/src",
+    "root": "libs/contrib/routing",
+    "sourceRoot": "libs/contrib/routing/src",
     "prefix": "hitan",
     "targets": {
         "build": {
             "executor": "@nrwl/angular:ng-packagr-lite",
-            "outputs": ["dist/libs/contrib/views"],
+            "outputs": ["dist/libs/contrib/routing"],
             "options": {
-                "project": "libs/contrib/views/ng-package.json"
+                "project": "libs/contrib/routing/ng-package.json"
             },
             "configurations": {
                 "production": {
-                    "tsConfig": "libs/contrib/views/tsconfig.lib.prod.json"
+                    "tsConfig": "libs/contrib/routing/tsconfig.lib.prod.json"
                 },
                 "development": {
-                    "tsConfig": "libs/contrib/views/tsconfig.lib.json"
+                    "tsConfig": "libs/contrib/routing/tsconfig.lib.json"
                 }
             },
             "defaultConfiguration": "production"
         },
         "test": {
             "executor": "@nrwl/jest:jest",
-            "outputs": ["coverage/libs/contrib/views"],
+            "outputs": ["coverage/libs/contrib/routing"],
             "options": {
-                "jestConfig": "libs/contrib/views/jest.config.js",
+                "jestConfig": "libs/contrib/routing/jest.config.js",
                 "passWithNoTests": true
             }
         },
@@ -32,8 +32,8 @@
             "executor": "@nrwl/linter:eslint",
             "options": {
                 "lintFilePatterns": [
-                    "libs/contrib/views/src/**/*.ts",
-                    "libs/contrib/views/src/**/*.html"
+                    "libs/contrib/routing/src/**/*.ts",
+                    "libs/contrib/routing/src/**/*.html"
                 ]
             }
         }
