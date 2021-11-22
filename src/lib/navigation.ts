@@ -9,7 +9,7 @@ export interface NavigationEvent extends RxEvent {
     queryParams?: Record<string, unknown>;
 }
 
-export const navigate = declareEvent(
+export const navigation = declareEvent(
     NAVIGATION_VERB,
     args<{
         pathSegments: string[];

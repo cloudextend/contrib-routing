@@ -6,7 +6,7 @@ import { switchMap } from "rxjs/operators";
 
 import { onEvent } from "@cloudextend/contrib/events";
 
-import { navigate } from "./navigation";
+import { navigation } from "./navigation";
 
 @Injectable()
 export class NavigationEffects {
@@ -18,7 +18,7 @@ export class NavigationEffects {
     navigateOnEvent$ = createEffect(
         () =>
             this.actions$.pipe(
-                onEvent(navigate),
+                onEvent(navigation),
                 switchMap(event => {
                     const { params, queryParams } = event;
                     const pathParams = event.pathSegments;

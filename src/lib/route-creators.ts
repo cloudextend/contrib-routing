@@ -2,7 +2,7 @@ import { Creator } from "@ngrx/store";
 
 import { EventCreator, ObjectLike, RxEvent } from "@cloudextend/contrib/events";
 
-import { navigate, NavigationEvent } from "./navigation";
+import { navigation, NavigationEvent } from "./navigation";
 import { extractUrlSegments } from "./url-segments-extractor";
 import { Route } from "@angular/router";
 
@@ -51,7 +51,7 @@ export function declareRoute<ParamsType extends Record<string, unknown>>(
                 throw new Error("Route misconfiguration. A path is required.");
             }
             const pathSegments = [Route.path];
-            return navigate(source, { pathSegments, queryParams });
+            return navigation(source, { pathSegments, queryParams });
         };
         return action;
     } else {
@@ -66,7 +66,7 @@ export function declareRoute<ParamsType extends Record<string, unknown>>(
             }
 
             const pathSegments = extractUrlSegments(Route.path);
-            return navigate(source, { pathSegments, params, queryParams });
+            return navigation(source, { pathSegments, params, queryParams });
         };
         return action;
     }
