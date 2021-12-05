@@ -2,7 +2,7 @@
     "projectType": "library",
     "root": "libs/contrib/routing",
     "sourceRoot": "libs/contrib/routing/src",
-    "prefix": "hitan",
+    "prefix": "cloudextend",
     "targets": {
         "build": {
             "executor": "@nrwl/angular:ng-packagr-lite",
