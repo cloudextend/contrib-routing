@@ -1,6 +1,6 @@
 ﻿export * from "./url-segments-extractor";
 export * from "./navigation";
-export * from "./resolve";
+export * from "./define";
 
 export * from "./route-creators";
 
