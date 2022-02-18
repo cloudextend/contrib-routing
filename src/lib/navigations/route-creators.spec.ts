@@ -1,5 +1,5 @@
+import { define } from "./define";
 import { NAVIGATION_VERB } from "./navigation";
-import { resolve } from "./resolve";
 import {
     declareRoute,
     ParameterizedNavigation,
@@ -16,7 +16,7 @@ describe("Route Creation", () => {
         });
 
         describe("when routified", () => {
-            beforeEach(() => resolve(unparamRoute, { path: "sample/path" }));
+            beforeEach(() => define(unparamRoute, { path: "sample/path" }));
 
             it("can be navigated", () => {
                 const nav = unparamRoute("UT");
@@ -45,7 +45,7 @@ describe("Route Creation", () => {
 
         describe("when routified", () => {
             beforeEach(() =>
-                resolve(paramRoute, { path: "sample/:a/route/:b" })
+                define(paramRoute, { path: "sample/:a/route/:b" })
             );
 
             it("can be navigated", () => {
