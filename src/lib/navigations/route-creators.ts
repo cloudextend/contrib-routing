@@ -1,10 +1,10 @@
+import { Route } from "@angular/router";
 import { Creator } from "@ngrx/store";
 
 import { EventCreator, ObjectLike, RxEvent } from "@cloudextend/contrib/events";
 
 import { navigation, NavigationEvent } from "./navigation";
 import { extractUrlSegments } from "./url-segments-extractor";
-import { Route } from "@angular/router";
 
 export type RouteCreator<C extends Creator = Creator> = EventCreator<C> & Route;
 
