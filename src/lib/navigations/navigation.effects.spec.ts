@@ -43,7 +43,7 @@ describe("Navigation Effects", () => {
                     expect(recievedUrlSegments[0]).toEqual("unit/test");
                     done();
                 },
-                error: done.fail,
+                error: done,
             });
         });
 
@@ -66,7 +66,7 @@ describe("Navigation Effects", () => {
 
                     done();
                 },
-                error: done.fail,
+                error: done,
             });
         });
     });
