@@ -1,23 +1,11 @@
-import { define } from "./define";
 import { NAVIGATION_VERB } from "./navigation";
-import {
-    declareRoute,
-    ParameterizedNavigation,
-    UnparamterizedNavigation,
-    takes,
-} from "./route-creators";
+import { declareRoute, where } from "./route-creators";
 
 describe("Route Creation", () => {
     describe("Parameterless routes", () => {
-        let unparamRoute: UnparamterizedNavigation;
-
-        beforeEach(() => {
-            unparamRoute = declareRoute();
-        });
+        const unparamRoute = declareRoute("sample/path");
 
         describe("when routified", () => {
-            beforeEach(() => define(unparamRoute, { path: "sample/path" }));
-
             it("can be navigated", () => {
                 const nav = unparamRoute("UT");
                 expect(nav.verb).toEqual(NAVIGATION_VERB);
@@ -37,17 +25,12 @@ describe("Route Creation", () => {
     });
 
     describe("Paramtered routes", () => {
-        let paramRoute: ParameterizedNavigation<{ a: string; b: string }>;
-
-        beforeEach(() => {
-            paramRoute = declareRoute(takes<{ a: string; b: string }>());
-        });
+        const paramRoute = declareRoute(
+            "sample/:a/route/:b",
+            where<{ a: string; b: string }>()
+        );
 
         describe("when routified", () => {
-            beforeEach(() =>
-                define(paramRoute, { path: "sample/:a/route/:b" })
-            );
-
             it("can be navigated", () => {
                 const nav = paramRoute("UT", { a: "alpha", b: "beta" });
                 expect(nav.verb).toEqual(NAVIGATION_VERB);
