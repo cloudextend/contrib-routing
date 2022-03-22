@@ -8,12 +8,16 @@ import { extractUrlSegments } from "./url-segments-extractor";
 
 export type RouteCreator<C extends Creator = Creator> = EventCreator<C> & Route;
 
-export function takes<T extends ObjectLike>() {
+export function where<T extends ObjectLike>() {
     return "params" as unknown as T;
 }
 
+export interface Navigatable {
+    path?: string;
+}
+
 export interface UnparamterizedNavigation
-    extends Route,
+    extends Navigatable,
         RouteCreator<
             (
                 source: string,
@@ -22,7 +26,7 @@ export interface UnparamterizedNavigation
         > {}
 
 export interface ParameterizedNavigation<T>
-    extends Route,
+    extends Navigatable,
         RouteCreator<
             (
                 soure: string,
@@ -32,27 +36,38 @@ export interface ParameterizedNavigation<T>
         > {}
 
 export function declareRoute(): UnparamterizedNavigation;
+export function declareRoute(path: string): UnparamterizedNavigation;
 export function declareRoute<ParamsType extends Record<string, unknown>>(
     paramsHint: ParamsType
 ): ParameterizedNavigation<ParamsType>;
 export function declareRoute<ParamsType extends Record<string, unknown>>(
-    ...params: ParamsType[]
+    path: string,
+    paramsHint: ParamsType
+): ParameterizedNavigation<ParamsType>;
+export function declareRoute<ParamsType extends Record<string, unknown>>(
+    pathOrParamsHint?: string | ParamsType,
+    paramsHint?: ParamsType
 ): (
     source: string,
     ...params: ParamsType[]
 ) => RxEvent | (RxEvent & ParamsType) {
-    if (!params || !params.length) {
+    const path =
+        typeof pathOrParamsHint === "string" ? pathOrParamsHint : undefined;
+    const isParameterized = paramsHint || (!path && pathOrParamsHint);
+
+    if (!isParameterized) {
         const action = (
             source: string,
             queryParams?: Record<string, unknown>
         ) => {
-            const Route = action as unknown as Route;
-            if (!Route.path) {
+            const routePath = (action as Navigatable).path || path;
+            if (!routePath) {
                 throw new Error("Route misconfiguration. A path is required.");
             }
-            const pathSegments = [Route.path];
+            const pathSegments = [routePath];
             return navigation(source, { pathSegments, queryParams });
         };
+        (action as Navigatable).path = path;
         return action;
     } else {
         const action = (
@@ -60,14 +75,15 @@ export function declareRoute<ParamsType extends Record<string, unknown>>(
             params: ParamsType,
             queryParams?: Record<string, unknown>
         ) => {
-            const Route = action as unknown as Route;
-            if (!Route.path) {
+            const routePath = (action as Navigatable).path || path;
+            if (!routePath) {
                 throw new Error("Route misconfiguration. A path is required.");
             }
 
-            const pathSegments = extractUrlSegments(Route.path);
+            const pathSegments = extractUrlSegments(routePath);
             return navigation(source, { pathSegments, params, queryParams });
         };
+        (action as Navigatable).path = path;
         return action;
     }
 }
